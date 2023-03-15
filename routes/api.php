@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ControllerRegister;
+use App\Http\Controllers\PlanteController;
+use App\Models\Plante;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +18,7 @@ use App\Http\Controllers\ControllerRegister;
 |
 */
 
-
+// All Roles
 // register
 Route::post('register',[ControllerRegister::class,'register'])->name('register');
 // login
@@ -36,10 +38,18 @@ Route::group(['middleware'=>['jwt.verify.admin']],function (){
 
     // Manage ALL categories
     Route::apiResource('category',CategoryController::class);
+    // // Manage All plante
+    // Route::apiResource('plante',PlanteController::class);
+
 });
+
 // Vendeur Role
 Route::group(['middleware'=>['jwt.verify.vendeur']],function (){
 
     //Can only show categories
-    Route::apiResource('category',CategoryController::class)->only('index');
+    Route::apiResource('category',CategoryController::class)->only('index','show');
+
+    // Show all plantes
+    Route::apiResource('plante',PlanteController::class);
+
 });

@@ -24,6 +24,9 @@ class User extends Authenticatable implements JWTSubject
         'password',
     ];
 
+    public function plantes(){
+        return $this->hasMany(Plante::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('price');
             $table->string('image');
             $table->foreignId('category_id')->references('id')->on('categories')->cascadeOnDelete();
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

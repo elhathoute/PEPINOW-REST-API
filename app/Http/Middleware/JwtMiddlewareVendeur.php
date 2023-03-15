@@ -25,6 +25,7 @@ class JwtMiddlewareVendeur
                 // role=>1=>Admin
                 // role=>2=>Vendeur
                 // role=>3=>User
+                if($user->role)
                 return response()->json(['status' => 'Sorry You Are Not Vendeur Or Admin!']);
 
             }
