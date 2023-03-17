@@ -90,4 +90,75 @@ class ControllerRegister extends Controller
 
     }
     }
+
+    // change profile
+
+    public function edit_profile(Request $request,$user_id=null){
+
+        // get auth user
+        $user= auth()->user();
+
+        $validator = Validator::make($request->all(), [
+            'name'=>'required',
+            'email' => 'required|string|email|unique:users,email,'.$user->email,
+            'password'=>'required|min:6|max:24|confirmed',
+            'role'=>'integer',
+
+        ]);
+
+        if($validator->fails()){
+                return response()->json($validator->errors(), 400);
+        }
+
+        // return $user;
+     else if($user_id){
+            if($user->role==1 || $user->id==$user_id)
+            {
+                if($user->role==1){
+                    $role=$request->role;
+                }else{
+                    $role=$user->role;
+                }
+
+                User::find($user_id)->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'role'=>$role
+                ]);
+
+                return response()->json([
+                    'message' => 'User profile updated successfully',
+                    'user' =>User::find($user->id),
+                ]);
+
+            }
+            else{
+
+                return response()->json([
+                    "Error"=>"Sorry it's Not Your A count",
+                ], 403);
+
+            }
+        }
+        else{
+            // return  User::find($user->id);
+
+            User::find($user->id)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+
+            return response()->json([
+                'message' => 'User profile updated successfully',
+                'user' => User::find($user->id),
+            ]);
+        }
+
+
+
+
+
+    }
 }

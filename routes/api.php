@@ -25,10 +25,14 @@ Route::post('register',[ControllerRegister::class,'register'])->name('register')
 Route::post('login',[ControllerRegister::class,'login'])->name('login');
 
 
+
 // middleware verify token
 Route::group(['middleware'=>['jwt.verify']],function (){
 // logout
 Route::get('logout',[ControllerRegister::class,'logout'])->name('logout');
+
+// change profile
+Route::put('edit_profile/{user?}',[ControllerRegister::class,'edit_profile']);
 
 });
 
